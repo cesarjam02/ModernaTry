@@ -8,19 +8,19 @@ export function useUsers() {
 
   const create = useCallback(async (input: CreateUserDTO) => {
     const created = await Services.users.create(input);
-    await listState.refetch();     // <— agrega esto
+    await listState.refetch();     
     return created;
   }, [listState.refetch]);
 
   const update = useCallback(async (id: string, input: UpdateUserDTO) => {
     const updated = await Services.users.update(id, input);
-    await listState.refetch();     // <— agrega esto
+    await listState.refetch();     
     return updated;
   }, [listState.refetch]);
 
   const remove = useCallback(async (id: string) => {
     const res = await Services.users.remove(id);
-    await listState.refetch();     // <— agrega esto
+    await listState.refetch();     
     return res;
   }, [listState.refetch]);
 
