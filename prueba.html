@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Factura UDLA - Modelo</title>
+<style>
+  :root{
+    --gray-1:#f6f7f9;
+    --gray-2:#eef1f4;
+    --gray-3:#d9e0e7;
+    --ink:#1f2937;
+    --muted:#475569;
+    --brand:#b50000;            /* puedes ajustar el color del logo */
+    --border:#cbd5e1;
+    --accent:#0f172a;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;color:var(--ink);font:13px/1.35 "Inter",system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial,sans-serif;background:#fff}
+  .sheet{
+    width:210mm; min-height:297mm; margin:0 auto; padding:18mm 15mm;
+    background:#fff;
+  }
+  @media print{
+    @page{size:A4;margin:14mm 12mm}
+    .toolbar{display:none}
+    .sheet{padding:0}
+  }
+
+  .toolbar{display:flex;gap:.5rem;justify-content:flex-end;padding:10px 14px;position:sticky;top:0;background:#fff;border-bottom:1px solid var(--gray-3)}
+  .btn{border:1px solid var(--border);background:#fff;padding:.45rem .8rem;border-radius:8px;cursor:pointer}
+  .btn:hover{background:var(--gray-1)}
+
+  .doc{
+    border:1px solid var(--border);
+    border-radius:12px;
+    overflow:hidden;
+  }
+
+  /* HEADER SUPERIOR */
+  .head{
+    display:grid; grid-template-columns:1fr 1fr; gap:14px;
+    padding:16px; background:var(--gray-1); border-bottom:1px solid var(--border);
+  }
+  .brand{
+    display:grid; grid-template-columns:auto 1fr; gap:12px; align-items:center;
+  }
+  .brand img{height:44px; width:auto; object-fit:contain}
+  .brand h1{margin:0;font-size:16px;letter-spacing:.4px}
+  .facts{
+    text-align:right;
+  }
+  .facts .ruc{font-weight:700;letter-spacing:.3px}
+  .facts .title{
+    margin-top:2px; font-size:20px; font-weight:800; letter-spacing:.6px;
+  }
+  .facts .num{margin-top:6px;font-weight:600}
+
+  /* BLOQUES DE DATOS */
+  .blocks{
+    display:grid; grid-template-columns:1.2fr .8fr; gap:12px; padding:14px; border-bottom:1px solid var(--border);
+  }
+  .card{
+    border:1px solid var(--border); border-radius:10px; padding:12px; background:#fff;
+  }
+  .card h3{margin:0 0 8px 0; font-size:12px; color:var(--muted); letter-spacing:.3px; text-transform:uppercase}
+  .kv{display:grid; grid-template-columns:140px 1fr; row-gap:6px; column-gap:10px}
+  .kv div{padding:0}
+  .kv .k{color:var(--muted)}
+  .codebar{
+    margin-top:8px; font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,"Liberation Mono","Courier New",monospace;
+    background:var(--gray-2); border:1px dashed var(--border); padding:8px; border-radius:8px; text-align:center; font-size:12px
+  }
+
+  /* DATOS DE CLIENTE */
+  .client{
+    display:grid; grid-template-columns:1fr 1fr; gap:12px; padding:0 14px 14px 14px; border-bottom:1px solid var(--border);
+  }
+
+  /* DETALLE */
+  .table-wrap{padding:14px}
+  table{width:100%; border-collapse:collapse; font-size:12.5px}
+  thead th{
+    text-align:left; background:var(--gray-2); padding:10px 8px; border:1px solid var(--border); font-weight:700
+  }
+  tbody td{
+    padding:9px 8px; border:1px solid var(--border); vertical-align:top
+  }
+  .right{text-align:right}
+  .center{text-align:center}
+  .muted{color:var(--muted)}
+  .code{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,"Liberation Mono","Courier New",monospace}
+
+  /* PAGO + INFO + TOTALES */
+  .footer-grid{
+    display:grid; grid-template-columns:1.1fr 1fr .9fr; gap:12px; padding:0 14px 16px 14px; align-items:start
+  }
+  .totals table{width:100%; border-collapse:collapse}
+  .totals td{padding:7px 8px; border-bottom:1px dashed var(--border)}
+  .totals td:last-child{text-align:right}
+  .totals .grand td{border-top:2px solid var(--accent); border-bottom:2px solid var(--accent); font-weight:800}
+
+  .note{font-size:12px; color:var(--muted)}
+  .stamp{margin-top:8px; font-size:11.5px; color:var(--muted)}
+</style>
+</head>
+<body>
+
+<div class="toolbar">
+  <button class="btn" onclick="window.print()">Imprimir</button>
+</div>
+
+<div class="sheet">
+  <div class="doc">
+
+    <!-- Cabecera -->
+    <section class="head">
+      <div class="brand">
+        <!-- Reemplaza src por tu logo -->
+        <img src="logo-udla.png" alt="UDLA" />
+        <div>
+          <h1>UNIVERSIDAD DE LAS AMÉRICAS</h1>
+          <div class="muted">Factura electrónica</div>
+        </div>
+      </div>
+      <div class="facts">
+        <div class="ruc">R.U.C.: <span class="code">1791362845001</span></div>
+        <div class="title" style="color:var(--brand)">F A C T U R A</div>
+        <div class="num">No.: <span class="code">007-019-000104496</span></div>
+      </div>
+    </section>
+
+    <!-- Bloques empresa / autorización -->
+    <section class="blocks">
+      <div class="card">
+        <h3>Emisor</h3>
+        <div class="kv">
+          <div class="k">Dirección Matriz</div><div>VÍA A NAYÓN A 300 METROS DEL REDONDEL DEL CICLISTA</div>
+          <div class="k">Dirección Sucursal</div><div>EL BATÁN, AV. DE LOS GRANADOS. E12-41 INTERSECCIÓN: AV. DE LOS COLIMES</div>
+          <div class="k">Contribuyente Especial</div><div>No. 636</div>
+          <div class="k">Obligado a llevar contabilidad</div><div>Sí</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Autorización</h3>
+        <div class="kv">
+          <div class="k">Número de autorización</div><div class="code">14082025170192362560120070190001496001044965</div>
+          <div class="k">Ambiente</div><div>Producción</div>
+          <div class="k">Emisión</div><div>Normal</div>
+          <div class="k">Clave de acceso</div>
+          <div>
+            <div class="codebar">14082025170192362560120070190001496001044965120250814093653</div>
+            <div class="stamp">—</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Cliente -->
+    <section class="client">
+      <div class="card">
+        <h3>Comprador</h3>
+        <div class="kv">
+          <div class="k">Razón Social / Nombres y Apellidos</div><div>Ayala Martínez Cesar</div>
+          <div class="k">Fecha emisión</div><div>14/08/2025</div>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Identificación y Dirección</h3>
+        <div class="kv">
+          <div class="k">Identificación</div><div class="code">0604359333</div>
+          <div class="k">Dirección</div><div>Primera Constituyente 1064 Velasco, Riobamba – Ecuador</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Detalle -->
+    <section class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th style="width:110px">Cod. Principal</th>
+            <th>Descripción</th>
+            <th class="center" style="width:70px">Cantidad</th>
+            <th class="right" style="width:95px">Precio Unitario</th>
+            <th class="right" style="width:85px">Descuento</th>
+            <th class="right" style="width:105px">Precio Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>TEL1</td>
+            <td>Test Maestría Online</td>
+            <td class="center">1,00</td>
+            <td class="right">$ 35,00</td>
+            <td class="right">$ 0,00</td>
+            <td class="right">$ 35,00</td>
+          </tr>
+          <!-- Duplica filas según necesites -->
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Pago / Info / Totales -->
+    <section class="footer-grid">
+      <div class="card">
+        <h3>Forma de Pago</h3>
+        <table style="width:100%; border-collapse:collapse">
+          <tr>
+            <td>Tarjeta de crédito</td>
+            <td class="right">$ 35,00</td>
+          </tr>
+          <tr>
+            <td class="muted">Plazo</td>
+            <td class="right muted">0 días</td>
+          </tr>
+        </table>
+        <div class="stamp">—</div>
+      </div>
+
+      <div class="card">
+        <h3>Información Adicional</h3>
+        <div class="note">
+          Email: <span class="code">clientecesariano2@gmail.com</span><br/>
+          Condiciones: Están exentos de retención en la fuente del IR. Según disposición numeral 5 del Art. 9 de la LRTI y Art. 19 del Reglamento.
+        </div>
+      </div>
+
+      <div class="card totals">
+        <h3>Totales</h3>
+        <table>
+          <tr><td>Subtotal 0%</td><td>$ 35,00</td></tr>
+          <tr><td>Subtotal no objeto de IVA</td><td>$ 0,00</td></tr>
+          <tr><td>Subtotal Exento de IVA</td><td>$ 0,00</td></tr>
+          <tr><td>Subtotal sin impuestos</td><td>$ 35,00</td></tr>
+          <tr><td>Descuento</td><td>$ 0,00</td></tr>
+          <tr><td>IVA</td><td>$ 0,00</td></tr>
+          <tr><td>ICE</td><td>$ 0,00</td></tr>
+          <tr><td>IRBPNR</td><td>$ 0,00</td></tr>
+          <tr><td>Propina</td><td>$ 0,00</td></tr>
+          <tr class="grand"><td>Valor Total</td><td>$ 35,00</td></tr>
+        </table>
+      </div>
+    </section>
+
+  </div>
+</div>
+</body>
+</html>
